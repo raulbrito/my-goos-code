@@ -3,5 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test/end-to-end"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/windowlicker-core-DEV.jar"/>
+	<classpathentry kind="lib" path="lib/windowlicker-swing-DEV.jar"/>
+	<classpathentry kind="lib" path="lib/hamcrest-core-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/hamcrest-core-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/hamcrest-library-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/hamcrest-library-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
