@@ -7,8 +7,8 @@
 	<classpathentry kind="lib" path="lib/windowlicker-core-DEV.jar"/>
 	<classpathentry kind="lib" path="lib/windowlicker-swing-DEV.jar"/>
 	<classpathentry kind="lib" path="lib/hamcrest-core-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/hamcrest-core-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/hamcrest-library-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/hamcrest-library-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/smack.jar"/>
+	<classpathentry kind="lib" path="lib/smackx.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

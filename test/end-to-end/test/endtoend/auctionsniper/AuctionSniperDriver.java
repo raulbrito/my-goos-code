@@ -7,16 +7,18 @@ import com.objogate.wl.swing.driver.JFrameDriver;
 import com.objogate.wl.swing.driver.JLabelDriver;
 import com.objogate.wl.swing.gesture.GesturePerformer;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class AuctionSniperDriver extends JFrameDriver {
 
+	@SuppressWarnings("unchecked")
 	public AuctionSniperDriver(int timeout) {
 		super(new GesturePerformer(), 
 			  JFrameDriver.topLevelFrame(named(Main.MAIN_WINDOW_NAME), showingOnScreen()), 
 			  new AWTEventQueueProber(timeout, 100));
 	}
 
+	@SuppressWarnings("unchecked")
 	public void showSniperStatus(String statusText) {
 		new JLabelDriver(this,
 				         named(Main.SNIPER_STATUS_NAME)).hasText(equalTo(statusText));
