@@ -7,8 +7,8 @@ public class ApplicationRunner {
 	protected static final String XMPP_HOSTNAME = "localhost";
 	protected static final String SNIPER_PASSWORD = "sniper";
 	protected static final String SNIPER_ID = "sniper";
-	private static final String STATUS_JOINING = null;
-	private static final String STATUS_LOST = null;
+	private static final String STATUS_JOINING = "Joining";
+	private static final String STATUS_LOST = "Lost";
 	private AuctionSniperDriver driver;
 	
 
@@ -16,7 +16,12 @@ public class ApplicationRunner {
 		Thread thread = new Thread("Test Application") {
 			@Override
 			public void run() {
-				Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD, auction.getItemId());
+				try {
+					Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD, auction.getItemId());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		};
 		
