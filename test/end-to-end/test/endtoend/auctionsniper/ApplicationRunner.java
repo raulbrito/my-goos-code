@@ -1,6 +1,7 @@
 package test.endtoend.auctionsniper;
 
 import auctionsniper.Main;
+import auctionsniper.ui.MainWindow;
 
 public class ApplicationRunner {
 
@@ -9,6 +10,7 @@ public class ApplicationRunner {
 	protected static final String SNIPER_ID = "sniper";
 	private static final String STATUS_JOINING = "Joining";
 	private static final String STATUS_LOST = "Lost";
+	public static final String SNIPER_XMPP_ID = "sniper@localhost/Auction";
 	private AuctionSniperDriver driver;
 	
 
@@ -42,6 +44,11 @@ public class ApplicationRunner {
 		if (driver != null) {
 			driver.dispose();
 		}
+		
+	}
+
+	public void hasShownSnipperIsBidding() {
+		driver.showSniperStatus(MainWindow.STATUS_BIDDING);
 		
 	}
 
