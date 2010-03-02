@@ -77,8 +77,8 @@ public class FakeAuctionServer {
 
 	private void receivesAMessageMatching(String sniperId,
 			Matcher<? super String> messageMatcher) throws InterruptedException {
-		assertThat(currentChat.getParticipant(), equalTo(sniperId));
 		messageListener.receivesAMessage(messageMatcher);
+		assertThat(currentChat.getParticipant(), equalTo(sniperId));
 	}
 
 }

@@ -8,9 +8,7 @@ public class ApplicationRunner {
 	protected static final String XMPP_HOSTNAME = "localhost";
 	protected static final String SNIPER_PASSWORD = "sniper";
 	protected static final String SNIPER_ID = "sniper";
-	private static final String STATUS_JOINING = "Joining";
-	private static final String STATUS_LOST = "Lost";
-	public static final String SNIPER_XMPP_ID = "sniper@localhost/Auction";
+	public static final String SNIPER_XMPP_ID = "sniper@raul-laptop/Auction";
 	private AuctionSniperDriver driver;
 	
 
@@ -30,13 +28,13 @@ public class ApplicationRunner {
 		thread.setDaemon(true);
 		thread.start();
 		driver = new AuctionSniperDriver(1000);
-		driver.showSniperStatus(STATUS_JOINING);
+		driver.showSniperStatus(MainWindow.STATUS_JOINING);
 		
 		
 	}
 
 	public void showSniperHasLostAuction() {
-		driver.showSniperStatus(STATUS_LOST);
+		driver.showSniperStatus(MainWindow.STATUS_LOST);
 		
 	}
 
