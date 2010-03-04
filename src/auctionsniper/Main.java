@@ -2,7 +2,6 @@ package auctionsniper;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.SwingUtilities;
 
@@ -14,7 +13,8 @@ import org.jivesoftware.smack.packet.Message;
 
 import auctionsniper.ui.MainWindow;
 
-public class Main {
+
+public class Main implements AuctionEventListener {
 
 	public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
 	public static final String SNIPER_STATUS_NAME = "sniper status";
@@ -60,27 +60,22 @@ public class Main {
 
 	private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
 		disconnectWhenUICloses(connection);
-		Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection),
-				new MessageListener() {
-			
-			@Override
-			public void processMessage(Chat aChat, Message message) {
-				SwingUtilities.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						ui.showStatus(MainWindow.STATUS_LOST);
-					}
-					
-				});
-			}
-			
-		});
-
+		Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), new AuctionMessageTranslator(this));
 		chat.sendMessage(JOIN_COMMAND_FORMAT);
+		notToBeGCd = chat;
 		
 	}
 	
+	public void auctionClosed() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				ui.showStatus(MainWindow.STATUS_LOST);
+			}
+			
+		});
+	}
+				
 
 	private void disconnectWhenUICloses(final XMPPConnection connection) {
 		ui.addWindowListener(new WindowAdapter() {
