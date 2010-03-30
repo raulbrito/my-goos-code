@@ -13,7 +13,7 @@ public class AuctionSniperEndToEndTest {
 	public void stopAuction() {
 		auction.stop();
 	}
-
+	
 	@After
 	public void stopApplication() {
 		application.stop();
