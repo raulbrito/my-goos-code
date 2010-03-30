@@ -13,7 +13,7 @@ public class AuctionSniperEndToEndTest {
 	public void stopAuction() {
 		auction.stop();
 	}
-	
+
 	@After
 	public void stopApplication() {
 		application.stop();
@@ -35,7 +35,7 @@ public class AuctionSniperEndToEndTest {
 		auction.startSellingItem();
 		application.startBiddingIn(auction);
 		auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
-		auction.reportPrice(100, 98, "other bidder");
+		auction.reportPrice(1000, 98, "other bidder");
 		application.hasShownSnipperIsBidding();
 		auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
 		auction.announceClosed();
