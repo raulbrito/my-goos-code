@@ -14,7 +14,7 @@ import org.jivesoftware.smack.packet.Message;
 import auctionsniper.ui.MainWindow;
 
 
-public class Main implements SniperListener {
+public class Main {
 
 	public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
 	public static final String SNIPER_STATUS_NAME = "sniper status";
@@ -64,7 +64,7 @@ public class Main implements SniperListener {
 		this.notToBeGCd = chat;
 
 		Auction auction = new XMPPAuction(chat);
-		chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
+		chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, new SniperStateDisplayer())));
 		auction.join();
 		
 	}
@@ -95,26 +95,6 @@ public class Main implements SniperListener {
 		return connection;
 	}
 
-	@Override
-	public void sniperLost() {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				ui.showStatus(MainWindow.STATUS_LOST);
-			}
-			
-		});
-	}
-
-	@Override
-	public void sniperBidding() {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				ui.showStatus(MainWindow.STATUS_BIDDING);
-			}
-		});
-	}
-	
 	public class XMPPAuction implements Auction {
 		private final Chat chat;
 		
@@ -138,6 +118,38 @@ public class Main implements SniperListener {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public class SniperStateDisplayer implements SniperListener {
+
+		@Override
+		public void sniperBidding() {
+			showStatus(MainWindow.STATUS_BIDDING);
+			
+		}
+
+		@Override
+		public void sniperLost() {
+			showStatus(MainWindow.STATUS_LOST);
+		}
+		
+		@Override
+		public void sniperWinning() {
+			showStatus(MainWindow.STATUS_WINNING);
+		}
+		
+		
+		
+		
+		
+		private void showStatus(final String status) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					ui.showStatus(status);
+				}
+			});
+		}
+		
 	}
 
 
