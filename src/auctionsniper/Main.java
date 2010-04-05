@@ -138,6 +138,10 @@ public class Main {
 			showStatus(MainWindow.STATUS_WINNING);
 		}
 		
+		@Override
+		public void sniperWon() {
+			showStatus(MainWindow.STATUS_WON);
+		}
 		
 		
 		
@@ -149,6 +153,7 @@ public class Main {
 				}
 			});
 		}
+
 		
 	}
 
