@@ -9,7 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
-import javax.swing.table.AbstractTableModel;
+
+import auctionsniper.SniperState;
 
 public class MainWindow extends JFrame {
 	private static final String APPLICATION_TITLE = "Auction Sniper";
@@ -21,7 +22,6 @@ public class MainWindow extends JFrame {
 	public static final String STATUS_WINNING = "Winning";
 	public static final String STATUS_WON = "Won";
 	private static final String SNIPERS_TABLE_NAME = "Snipers Table";
-	private final JLabel sniperStatus = createLabel(STATUS_JOINING);
 
 	private final SnipersTableModel snipers = new SnipersTableModel();
 	
@@ -47,41 +47,14 @@ public class MainWindow extends JFrame {
 		return snipersTable;
 	}
 
-	private JLabel createLabel(String initialText) {
-		JLabel result = new JLabel(initialText);
-		result.setName(SNIPER_STATUS_NAME);
-		result.setBorder(new LineBorder(Color.BLACK));
-		return result;
-	}
-
 	public void showStatus(String status) {
 		snipers.setStatusText(status);
 		
 	}
-	
-	public class SnipersTableModel extends AbstractTableModel {
 
-		private String statusText = STATUS_JOINING;
-		@Override
-		public int getColumnCount() {
-			return 1;
-		}
-
-		@Override
-		public int getRowCount() {
-			return 1;
-		}
-
-		@Override
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			return statusText;
-		}
-		
-		public void setStatusText(String newStatusText) {
-			this.statusText = newStatusText;
-			fireTableRowsUpdated(0, 0);
-		}
-		
+	public void sniperStatusChanged(SniperState state, String statusText) {
+		snipers.sniperStatusChanged(state, statusText);
 	}
+
 
 }

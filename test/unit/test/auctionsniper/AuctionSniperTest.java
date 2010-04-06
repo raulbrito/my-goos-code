@@ -67,7 +67,6 @@ public class AuctionSniperTest {
 		
 		context.checking(new Expectations() {{
 			one(auction).bid(bid);
-//			atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, price, bid));
 			atLeast(1).of(sniperListener).sniperBidding(with(any(SniperState.class)));
 		}});
 		
