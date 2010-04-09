@@ -1,10 +1,10 @@
 package test.auctionsniper;
 
-import junit.framework.Assert;
-
-import org.hamcrest.Matcher;
-import org.hamcrest.FeatureMatcher;
+import static auctionsniper.SniperState.LOST;
 import static org.hamcrest.Matchers.equalTo;
+
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.States;
@@ -18,6 +18,9 @@ import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 import auctionsniper.AuctionEventListener.PriceSource;
+import static auctionsniper.SniperState.WINNING;
+import static auctionsniper.SniperState.BIDDING;
+import static auctionsniper.SniperState.WON;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
@@ -27,13 +30,11 @@ public class AuctionSniperTest {
 	private final Auction auction = context.mock(Auction.class);
 	private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction, sniperListener);
 	private final States sniperState = context.states("sniper");
-	private static final SniperState BIDDING = SniperState.BIDDING;
-	private static final SniperState WINNING = SniperState.WINNING;
 	
 	@Test
 	public void reportsLostIfAuctionClosesImmediately() {
 		context.checking(new Expectations() {{
-			one(sniperListener).sniperLost();
+		      atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 0, 0, LOST));  
 		}});
 		
 		sniper.auctionClosed();
@@ -45,8 +46,8 @@ public class AuctionSniperTest {
 			ignoring(auction);
 			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
 				then(sniperState.is("bidding"));
-			atLeast(1).of(sniperListener).sniperLost();
-				when(sniperState.is("bidding"));
+			atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 123, 168, LOST)); 
+                 when(sniperState.is("bidding")); 
 		}});
 		
 		sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
@@ -71,7 +72,7 @@ public class AuctionSniperTest {
 			ignoring(auction);
 			allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(WINNING)));
 				then(sniperState.is("winning"));
-			atLeast(1).of(sniperListener).sniperWon();
+			atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 123, 0, WON));
 				when(sniperState.is("winning"));
 		}});
 		

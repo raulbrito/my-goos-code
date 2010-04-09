@@ -13,7 +13,7 @@ import javax.swing.border.LineBorder;
 import auctionsniper.SniperSnapshot;
 
 public class MainWindow extends JFrame {
-	private static final String APPLICATION_TITLE = "Auction Sniper";
+	public static final String APPLICATION_TITLE = "Auction Sniper";
 	private static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
 	private static final String SNIPER_STATUS_NAME = "sniper status";
 	public static final String STATUS_JOINING = "Joining";
@@ -23,10 +23,11 @@ public class MainWindow extends JFrame {
 	public static final String STATUS_WON = "Won";
 	private static final String SNIPERS_TABLE_NAME = "Snipers Table";
 
-	private final SnipersTableModel snipers = new SnipersTableModel();
+	private final SnipersTableModel snipers;
 	
-	public MainWindow() {
+	public MainWindow(SnipersTableModel snipers) {
 		super(APPLICATION_TITLE);
+		this.snipers = snipers;
 		setName(MAIN_WINDOW_NAME);
 		fillContentPane(makeSnipersTable());
 		pack();
@@ -47,13 +48,9 @@ public class MainWindow extends JFrame {
 		return snipersTable;
 	}
 
-	public void showStatus(String status) {
-		snipers.setStatusText(status);
-		
-	}
 
-	public void sniperStatusChanged(SniperSnapshot state) {
-		snipers.sniperStateChanged(state);
+	public void sniperStatusChanged(SniperSnapshot snapshot) {
+		snipers.sniperStateChanged(snapshot);
 	}
 
 

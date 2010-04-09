@@ -53,6 +53,13 @@ public class SnipersTableModelTest {
 		
 	}
 	
+	@Test
+	public void setsUpColumnHeadings() {
+		for(Column column: Column.values()) {
+			Assert.assertEquals(column.name, model.getColumnName(column.ordinal()));
+		}
+	}
+	
 
 
 	private void assertColumnEquals(Column column, Object expected) {
