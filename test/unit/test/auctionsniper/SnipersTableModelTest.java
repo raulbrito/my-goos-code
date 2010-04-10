@@ -49,7 +49,7 @@ public class SnipersTableModelTest {
 		assertColumnEquals(Column.ITEM_IDENTIFIER, "Item id");
 		assertColumnEquals(Column.LAST_PRICE, 555);
 		assertColumnEquals(Column.LAST_BID, 666);
-		assertColumnEquals(Column.SNIPER_STATE, SniperState.BIDDING);
+		assertColumnEquals(Column.SNIPER_STATE, SnipersTableModel.STATUS_TEXT[SniperState.BIDDING.ordinal()]);
 		
 	}
 	

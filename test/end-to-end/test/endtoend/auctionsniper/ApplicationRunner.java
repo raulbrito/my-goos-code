@@ -36,8 +36,8 @@ public class ApplicationRunner {
 		
 	}
 
-	public void showSniperHasLostAuction() {
-		driver.showSniperStatus(itemId, 0, 0, MainWindow.STATUS_LOST);
+	public void showSniperHasLostAuction(int lastPrice, int lastBid) {
+		driver.showSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_LOST);
 		
 	}
 

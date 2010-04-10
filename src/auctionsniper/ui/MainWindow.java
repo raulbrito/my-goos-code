@@ -1,21 +1,17 @@
 package auctionsniper.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.LineBorder;
 
 import auctionsniper.SniperSnapshot;
 
 public class MainWindow extends JFrame {
 	public static final String APPLICATION_TITLE = "Auction Sniper";
 	private static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-	private static final String SNIPER_STATUS_NAME = "sniper status";
 	public static final String STATUS_JOINING = "Joining";
 	public static final String STATUS_LOST = "Lost";
 	public static final String STATUS_BIDDING = "Bidding";
