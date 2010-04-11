@@ -23,8 +23,7 @@ public class SingleMessageListener implements MessageListener {
 	
 	public void receivesAMessage(Matcher<? super String> matcher) throws InterruptedException {
 		Message message = messages.poll(5, TimeUnit.SECONDS);
-		assertThat("Message", message, is(notNullValue()));
-		assertThat(message.getBody(), matcher);
+		assertThat(message, hasProperty("body", matcher));
 	}
 
 }

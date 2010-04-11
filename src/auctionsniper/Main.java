@@ -2,14 +2,16 @@ package auctionsniper;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 
 import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Message;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.LocatorEx.Snapshot;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
@@ -36,7 +38,7 @@ public class Main {
 	private MainWindow ui;
 	
 	@SuppressWarnings("unused")
-	private Chat notToBeGCd;
+	private List<Chat> notToBeGCd = new ArrayList<Chat>();
 	
 	public Main() throws Exception {
 		SwingUtilities.invokeAndWait(new Runnable() {
@@ -51,16 +53,19 @@ public class Main {
 	public static void main(String... args) throws Exception {
 		Main main = new Main();
 		XMPPConnection connection = connectTo(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
-		main.joinAuction(connection, args[ARG_ITEM_ID]);
+		main.disconnectWhenUICloses(connection);
+		for (int i = 0; i < args.length; i++) {
+			main.joinAuction(connection, args[i]);
+		}
 	}
 	
 	
 
 
-	private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
-		disconnectWhenUICloses(connection);
+	private void joinAuction(XMPPConnection connection, String itemId) throws Exception {
+		safelyAddItemToModel(itemId);
 		final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-		this.notToBeGCd = chat;
+		this.notToBeGCd.add(chat);
 
 		Auction auction = new XMPPAuction(chat);
 		SwingThreadSniperListener sniperListener = new SwingThreadSniperListener();
@@ -71,6 +76,14 @@ public class Main {
 		
 	}
 				
+
+	private void safelyAddItemToModel(final String itemId) throws Exception {
+		SwingUtilities.invokeAndWait(new Runnable() {
+			public void run() {
+				snipers.addSniper(SniperSnapshot.joining(itemId));
+			}
+		});
+	}
 
 	private void disconnectWhenUICloses(final XMPPConnection connection) {
 		ui.addWindowListener(new WindowAdapter() {
