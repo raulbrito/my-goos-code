@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test/end-to-end"/>
 	<classpathentry kind="src" path="test/unit"/>
+	<classpathentry kind="src" path="test/integration"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/deploy/commons-io-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/deploy/commons-lang-2.4.jar"/>

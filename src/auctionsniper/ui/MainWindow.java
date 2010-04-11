@@ -3,6 +3,8 @@ package auctionsniper.ui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +14,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import auctionsniper.SniperSnapshot;
+import auctionsniper.UserRequestListener;
+import auctionsniper.util.Announcer;
 
 public class MainWindow extends JFrame {
 	public static final String APPLICATION_TITLE = "Auction Sniper";
@@ -26,6 +30,9 @@ public class MainWindow extends JFrame {
 	public static final String JOIN_BUTTON_NAME = "join button";
 
 	private final SnipersTableModel snipers;
+	
+	private final Announcer<UserRequestListener> userRequests =
+		Announcer.to(UserRequestListener.class);
 	
 	public MainWindow(SnipersTableModel snipers) {
 		super(APPLICATION_TITLE);
@@ -46,6 +53,13 @@ public class MainWindow extends JFrame {
 		
 		JButton joinAuctionButton = new JButton("Join Auction");
 		joinAuctionButton.setName(JOIN_BUTTON_NAME);
+		joinAuctionButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				userRequests.announce().joinAuction(itemIdField.getText());
+			}
+		});
 		controls.add(joinAuctionButton);
 	
 		return controls;
@@ -67,6 +81,10 @@ public class MainWindow extends JFrame {
 
 	public void sniperStatusChanged(SniperSnapshot snapshot) {
 		snipers.sniperStateChanged(snapshot);
+	}
+
+	public void addUserRequestListener(UserRequestListener userRequestListener) {
+		userRequests.addListener(userRequestListener);
 	}
 
 

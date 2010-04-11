@@ -49,7 +49,7 @@ public class AuctionSniperDriver extends JFrameDriver {
 		
 	}
 
-	public void startBiddingIn(String itemId) {
+	public void startBiddingFor(String itemId) {
 		itemIdField().replaceAllText(itemId);
 		bidButton().click();
 		
