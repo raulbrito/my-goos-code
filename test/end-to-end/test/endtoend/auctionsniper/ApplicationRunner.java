@@ -11,8 +11,8 @@ import static auctionsniper.ui.SnipersTableModel.textFor;
 public class ApplicationRunner {
 
 	protected static final String XMPP_HOSTNAME = "localhost";
-	protected static final String SNIPER_PASSWORD = "sniper";
-	protected static final String SNIPER_ID = "sniper";
+	public static final String SNIPER_PASSWORD = "sniper";
+	public static final String SNIPER_ID = "sniper";
 	public static final String SNIPER_XMPP_ID = "sniper@localhost/Auction";
 	private AuctionSniperDriver driver;
 

@@ -7,7 +7,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
-import auctionsniper.Main;
+import auctionsniper.xmpp.XMPPAuction;
 
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -47,7 +47,7 @@ public class FakeAuctionServer {
 	}
 
 	public void hasReceivedJoinRequestFromSniper(String sniperId) throws InterruptedException {
-		Matcher<? super String> messageMatcher = equalTo(Main.JOIN_COMMAND_FORMAT);
+		Matcher<? super String> messageMatcher = equalTo(XMPPAuction.JOIN_COMMAND_FORMAT);
 		receivesAMessageMatching(sniperId, messageMatcher);
 	}
 
@@ -70,7 +70,7 @@ public class FakeAuctionServer {
 	}
 
 	public void hasReceivedBid(int bid, String sniperId) throws InterruptedException {
-		Matcher<? super String> messageMatcher = equalTo(String.format(Main.BID_COMMAND_FORMAT, bid));
+		Matcher<? super String> messageMatcher = equalTo(String.format(XMPPAuction.BID_COMMAND_FORMAT, bid));
 		receivesAMessageMatching(sniperId, messageMatcher);
 		
 	}
