@@ -2,8 +2,6 @@ package auctionsniper;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.SwingUtilities;
 
@@ -26,7 +24,6 @@ public class Main {
 	
 	private MainWindow ui;
 	
-	private final List<Auction> notToBeGCd = new ArrayList<Auction>();
 	
 	public Main() throws Exception {
 		SwingUtilities.invokeAndWait(new Runnable() {
@@ -46,20 +43,7 @@ public class Main {
 	}
 
 	private void addUserRequestListenerFor(final XMPPAuctionHouse auctionHouse) {
-		ui.addUserRequestListener(new UserRequestListener() {
-
-			@Override
-			public void joinAuction(String itemId) {
-				snipers.addSniper(SniperSnapshot.joining(itemId));
-				Auction auction = auctionHouse.auctionFor(itemId);
-				notToBeGCd.add(auction);
-				
-				SwingThreadSniperListener sniperListener = new SwingThreadSniperListener(snipers);
-				auction.addAuctionEventListener(new AuctionSniper(itemId, auction, sniperListener));
-				
-				auction.join();
-			}
-		});
+		ui.addUserRequestListener(new SniperLauncher(auctionHouse, snipers));
 		
 	}
 
@@ -72,24 +56,6 @@ public class Main {
 			}
 
 		});
-	}
-
-	public class SwingThreadSniperListener implements SniperListener {
-
-		private SniperListener sniper;
-
-		public SwingThreadSniperListener(SniperListener sniper) {
-			this.sniper = sniper;
-		}
-
-		@Override
-		public void sniperStateChanged(final SniperSnapshot snapshot) {
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					sniper.sniperStateChanged(snapshot);
-				}
-			});
-		}
 	}
 
 
