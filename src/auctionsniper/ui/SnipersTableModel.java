@@ -12,9 +12,10 @@ import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 import auctionsniper.SwingThreadSniperListener;
+import auctionsniper.SniperPortfolio.PortfolioListener;
 import auctionsniper.util.Defect;
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, PortfolioListener {
 	/**
 	 * 
 	 */
@@ -71,7 +72,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 	}
 
 	@Override
-	public void addSniper(AuctionSniper sniper) {
+	public void sniperAdded(AuctionSniper sniper) {
 		notToBeGCd.add(sniper);
 		addSniperSnapshot(sniper.getSnapshot());
 		sniper.addSniperListener(new SwingThreadSniperListener(this));
