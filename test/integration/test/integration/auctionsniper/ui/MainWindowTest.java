@@ -26,7 +26,7 @@ public class MainWindowTest {
 			}
 		});
 		
-		driver.startBiddingFor("an item-id");
+		driver.startBiddingWithStopPrice("an item-id", Integer.MAX_VALUE);
 		driver.check(buttonProbe);
 	}
 

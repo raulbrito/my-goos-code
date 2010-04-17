@@ -20,7 +20,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 	private static final long serialVersionUID = 1L;
 	private List<SniperSnapshot> snapshots = new ArrayList<SniperSnapshot>();
 
-	public static String[] STATUS_TEXT = {"Joining", "Bidding", "Winning", "Lost", "Won" };
+	public static String[] STATUS_TEXT = {"Joining", "Bidding", "Winning", "Losing", "Lost", "Won" };
 	@Override
 	public int getColumnCount() {
 		return Column.values().length;
