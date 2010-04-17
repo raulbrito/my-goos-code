@@ -6,8 +6,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.SwingUtilities;
 
 import auctionsniper.ui.MainWindow;
-import auctionsniper.ui.SnipersTableModel;
-
 import auctionsniper.xmpp.XMPPAuctionHouse;
 
 
