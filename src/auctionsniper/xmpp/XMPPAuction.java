@@ -7,6 +7,7 @@ import org.jivesoftware.smack.XMPPException;
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.AuctionMessageTranslator;
+import auctionsniper.Item;
 import auctionsniper.util.Announcer;
 
 
@@ -18,9 +19,9 @@ public class XMPPAuction implements Auction {
 	public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
 	public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
 	
-	public XMPPAuction(XMPPConnection connection, String itemId) {
+	public XMPPAuction(XMPPConnection connection, Item item) {
 		chat = connection.getChatManager().createChat(
-					auctionId(itemId, connection), 
+					auctionId(item.identifier, connection), 
 					new AuctionMessageTranslator(connection.getUser(),auctionEventListeners.announce()));
 	}
 	

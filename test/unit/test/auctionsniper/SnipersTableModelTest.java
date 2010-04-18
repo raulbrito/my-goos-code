@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import auctionsniper.AuctionSniper;
+import auctionsniper.Item;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 import auctionsniper.ui.Column;
@@ -31,7 +32,7 @@ public class SnipersTableModelTest {
 	private TableModelListener listener = context.mock(TableModelListener.class);
 	private final SnipersTableModel model = new SnipersTableModel();
 	private final String ITEM_ID = "item id";
-	private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, null); 
+	private final AuctionSniper sniper = new AuctionSniper(new Item(ITEM_ID, Integer.MAX_VALUE), null); 
 
 
 	@Before
@@ -123,7 +124,7 @@ public class SnipersTableModelTest {
 	
 	@Test
 	public void holdsSnipersInAdditionOrder() {
-		AuctionSniper sniper2 = new AuctionSniper("another item id", null);
+		AuctionSniper sniper2 = new AuctionSniper(new Item("another item id", 345), null);
 		context.checking(new Expectations() {{
 			ignoring(listener);
 		}});
@@ -137,7 +138,7 @@ public class SnipersTableModelTest {
 	
 	@Test
 	public void updatesCorrectRowForSniper() {
-		AuctionSniper sniper2 = new AuctionSniper("another item id", null);
+		AuctionSniper sniper2 = new AuctionSniper(new Item("another item id", Integer.MAX_VALUE), null);
 		context.checking(new Expectations() {{
 			ignoring(listener);
 		}});

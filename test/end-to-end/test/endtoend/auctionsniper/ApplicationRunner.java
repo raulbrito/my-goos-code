@@ -61,7 +61,7 @@ public class ApplicationRunner {
 	}
 
 	public void showSniperHasLostAuction(FakeAuctionServer auction, int lastPrice, int lastBid) {
-		driver.showSniperStatus(auction.getItemId(), lastPrice, lastBid, MainWindow.STATUS_LOST);
+		driver.showSniperStatus(auction.getItemId(), lastPrice, lastBid, textFor(SniperState.LOST));
 		
 	}
 
@@ -93,8 +93,8 @@ public class ApplicationRunner {
 		
 	}
 
-	public void hasShownSniperIsLosing(FakeAuctionServer auction, int winningBid, int currentBid) {
-		driver.showSniperStatus(auction.getItemId(), winningBid, winningBid, textFor(SniperState.LOSING));
+	public void hasShownSniperIsLosing(FakeAuctionServer auction, int lastPrice, int lastBid) {
+		driver.showSniperStatus(auction.getItemId(), lastPrice, lastBid, textFor(SniperState.LOSING));
 		
 	}
 

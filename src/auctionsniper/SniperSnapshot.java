@@ -40,6 +40,10 @@ public class SniperSnapshot {
 		return new SniperSnapshot(itemId, newLastPrice, lastBid, SniperState.WINNING);
 	}
 
+	public SniperSnapshot losing(int newLastPrice) {
+		return new SniperSnapshot(itemId, newLastPrice, lastBid, SniperState.LOSING);
+	}
+
 	public SniperSnapshot bidding(int newLastPrice, int newLastBid) {
 		return new SniperSnapshot(itemId, newLastPrice, newLastBid, SniperState.BIDDING);
 	}
@@ -51,5 +55,6 @@ public class SniperSnapshot {
 	public boolean isForSameItemAs(SniperSnapshot sniperSnapshot) {
 		return itemId.equals(sniperSnapshot.itemId);
 	}
+
 
 }

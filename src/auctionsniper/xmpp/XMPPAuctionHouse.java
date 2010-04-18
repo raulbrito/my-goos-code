@@ -5,6 +5,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import auctionsniper.Auction;
 import auctionsniper.AuctionHouse;
+import auctionsniper.Item;
 
 
 
@@ -16,8 +17,8 @@ public class XMPPAuctionHouse implements AuctionHouse {
 	public static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
 
 	@Override
-	public Auction auctionFor(String itemId) {
-		return new XMPPAuction(connection, itemId);
+	public Auction auctionFor(Item item) {
+		return new XMPPAuction(connection, item);
 	}
 	
 	public XMPPAuctionHouse(XMPPConnection connection) {
