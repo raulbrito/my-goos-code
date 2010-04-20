@@ -28,7 +28,8 @@ public enum SniperState {
 		}
 	},
 	WON,
-	LOST;
+	LOST, 
+	FAILED;
 
 	public SniperState whenAuctionClosed() {
 		throw new Defect("Auction is already closed");

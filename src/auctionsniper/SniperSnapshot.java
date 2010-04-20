@@ -56,5 +56,9 @@ public class SniperSnapshot {
 		return itemId.equals(sniperSnapshot.itemId);
 	}
 
+	public SniperSnapshot failed() {
+		return new SniperSnapshot(itemId, 0, 0, SniperState.FAILED);
+	}
+
 
 }

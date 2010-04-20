@@ -98,4 +98,16 @@ public class ApplicationRunner {
 		
 	}
 
+	public void showsSniperHasFailed(FakeAuctionServer auction) {
+		driver.showSniperStatus(auction.getItemId(), 0, 0, textFor(SniperState.FAILED));
+		
+	}
+
+	public void reportsInvalidMessage(FakeAuctionServer auction,
+			String brokenMessage) {
+		// TODO
+		System.out.println("TODO");
+		
+	}
+
 }
