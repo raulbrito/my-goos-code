@@ -8,6 +8,7 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.AuctionMessageTranslator;
 import auctionsniper.Item;
+import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.util.Announcer;
 
 
@@ -20,10 +21,28 @@ public class XMPPAuction implements Auction {
 	public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
 	
 	public XMPPAuction(XMPPConnection connection, Item item) {
-		chat = connection.getChatManager().createChat(
-					auctionId(item.identifier, connection), 
-					new AuctionMessageTranslator(connection.getUser(),auctionEventListeners.announce()));
+//		chat = connection.getChatManager().createChat(
+//					auctionId(item.identifier, connection), 
+//					new AuctionMessageTranslator(connection.getUser(),auctionEventListeners.announce()));
+	
+		AuctionMessageTranslator translator = translatorFor(connection);
+		this.chat = connection.getChatManager().createChat(auctionId(item.identifier, connection), translator);
+		addAuctionEventListener(chatDisconnectorFor(translator));
 	}
+
+	private AuctionEventListener chatDisconnectorFor(final AuctionMessageTranslator translator) { 
+	    return new AuctionEventListener() { 
+	      public void auctionFailed() { 
+	        chat.removeMessageListener(translator); 
+	      }
+	      public void auctionClosed() { }
+	      public void currentPrice(int price, int increment, PriceSource priceSource) { }
+	    }; 
+	  } 	
+
+	private AuctionMessageTranslator translatorFor(XMPPConnection connection) {
+		return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce());
+	} 
 	
 	public void addAuctionEventListener(AuctionEventListener listener) {
 		auctionEventListeners.addListener(listener);
