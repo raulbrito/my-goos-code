@@ -8,7 +8,6 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.AuctionMessageTranslator;
 import auctionsniper.Item;
-import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.util.Announcer;
 
 
@@ -17,17 +16,18 @@ public class XMPPAuction implements Auction {
 
 	private final Chat chat;
 
+	private XMPPFailureReporter failureReporter;
+
 	public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
 	public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
+
+
 	
-	public XMPPAuction(XMPPConnection connection, Item item) {
-//		chat = connection.getChatManager().createChat(
-//					auctionId(item.identifier, connection), 
-//					new AuctionMessageTranslator(connection.getUser(),auctionEventListeners.announce()));
-	
+	public XMPPAuction(XMPPConnection connection, Item item, XMPPFailureReporter failureReporter) {
 		AuctionMessageTranslator translator = translatorFor(connection);
 		this.chat = connection.getChatManager().createChat(auctionId(item.identifier, connection), translator);
 		addAuctionEventListener(chatDisconnectorFor(translator));
+		this.failureReporter = failureReporter;
 	}
 
 	private AuctionEventListener chatDisconnectorFor(final AuctionMessageTranslator translator) { 
@@ -41,9 +41,10 @@ public class XMPPAuction implements Auction {
 	  } 	
 
 	private AuctionMessageTranslator translatorFor(XMPPConnection connection) {
-		return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce());
+		return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce(), failureReporter);
 	} 
 	
+
 	public void addAuctionEventListener(AuctionEventListener listener) {
 		auctionEventListeners.addListener(listener);
 	}

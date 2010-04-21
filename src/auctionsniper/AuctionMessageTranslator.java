@@ -8,28 +8,33 @@ import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.packet.Message;
 
 import auctionsniper.AuctionEventListener.PriceSource;
+import auctionsniper.xmpp.XMPPFailureReporter;
 
 public class AuctionMessageTranslator implements MessageListener {
 
 	private AuctionEventListener listener;
 	private final String sniperId;
+	private XMPPFailureReporter failureReporter;
 
-	public AuctionMessageTranslator(String sniperId, AuctionEventListener listener) {
+	public AuctionMessageTranslator(String sniperId, AuctionEventListener listener, XMPPFailureReporter failureReporter) {
 		this.listener = listener;
 		this.sniperId = sniperId;
+		this.failureReporter = failureReporter;
 	}
 
 	@Override
 	public void processMessage(Chat chat, Message message) {
+		String messageBody = message.getBody();
 		try {
-			translate(message);
-		} catch (Exception parseException) {
+			translate(messageBody);
+		} catch (Exception exception) {
+			failureReporter.cannotTranslateMessage(sniperId, messageBody, exception);
 			listener.auctionFailed();
 		}
 	}
 
-	private void translate(Message message) throws MissingValueException {
-		AuctionEvent event = AuctionEvent.from(message.getBody());
+	private void translate(String messageBody) throws MissingValueException {
+		AuctionEvent event = AuctionEvent.from(messageBody);
 		
 		String eventType = event.type();
 		
