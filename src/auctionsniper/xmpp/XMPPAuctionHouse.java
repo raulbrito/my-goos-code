@@ -41,11 +41,14 @@ public class XMPPAuctionHouse implements AuctionHouse {
 
 	public static XMPPAuctionHouse connect(String hostname, String username,
 			String password) throws XMPPException, SecurityException, XMPPAuctionException {
-		XMPPConnection connection = new XMPPConnection(hostname);
-		XMPPAuctionHouse auctionHouse = new XMPPAuctionHouse(connection);
-		connection.connect();
-		connection.login(username, password, XMPPAuctionHouse.AUCTION_RESOURCE);
-		return auctionHouse;
+	    XMPPConnection connection = new XMPPConnection(hostname); 
+	    try {
+	    	connection.connect(); 
+	    	connection.login(username, password, AUCTION_RESOURCE); 
+	    	return new XMPPAuctionHouse(connection);
+	    } catch (XMPPException xmppe) {
+	        throw new XMPPAuctionException("Could not connect to auction: " + connection, xmppe);
+	    }
 	}
 
 	public void disconnect() {

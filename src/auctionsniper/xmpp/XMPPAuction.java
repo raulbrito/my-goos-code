@@ -24,10 +24,10 @@ public class XMPPAuction implements Auction {
 
 	
 	public XMPPAuction(XMPPConnection connection, Item item, XMPPFailureReporter failureReporter) {
+		this.failureReporter = failureReporter;
 		AuctionMessageTranslator translator = translatorFor(connection);
 		this.chat = connection.getChatManager().createChat(auctionId(item.identifier, connection), translator);
 		addAuctionEventListener(chatDisconnectorFor(translator));
-		this.failureReporter = failureReporter;
 	}
 
 	private AuctionEventListener chatDisconnectorFor(final AuctionMessageTranslator translator) { 

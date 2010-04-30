@@ -1,11 +1,10 @@
 package auctionsniper;
 
-import java.util.ArrayList;
-import java.util.List;
+import auctionsniper.util.Announcer;
 
 
 public class AuctionSniper implements AuctionEventListener {
-	private final List<SniperListener> sniperListeners = new ArrayList<SniperListener>();
+	  private final Announcer<SniperListener> listeners = Announcer.to(SniperListener.class);
 	private final Auction auction;
 	private final Item item;
 	private SniperSnapshot snapshot;
@@ -17,7 +16,7 @@ public class AuctionSniper implements AuctionEventListener {
 	}
 	
 	public void addSniperListener(SniperListener sniperListener) {
-		this.sniperListeners.add(sniperListener);
+		listeners.addListener(sniperListener);
 	}
 
 
@@ -28,10 +27,7 @@ public class AuctionSniper implements AuctionEventListener {
 	}
 
 	private void notifyChange() {
-		for (SniperListener listener : sniperListeners) {
-			listener.sniperStateChanged(snapshot);
-		}
-			
+		listeners.announce().sniperStateChanged(snapshot);
 		
 	}
 
@@ -61,9 +57,7 @@ public class AuctionSniper implements AuctionEventListener {
 	@Override
 	public void auctionFailed() {
 		snapshot = snapshot.failed();
-		for (SniperListener listener : sniperListeners) {
-			listener.sniperStateChanged(snapshot);
-		}
+		notifyChange();
 		
 	}
 		  
