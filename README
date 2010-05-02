@@ -1,0 +1,82 @@
+Step-by-step implementation of the Sniper Auction project included in the book: Growing Object Oriented Software, Guided by Tests
+=================================================================================================================================
+
+This GitHub project contains the implementation of the Sniper Auction code that is explained in the Growing Object Oriented Software, Guided by Tests.
+I've tried to stay as faithful to the source code in the book as possible.
+Changes were commited regularly to GitHub and with helpful comments (e.g.: "extracting XMPPAuction(pages 131 and 132)"), so it might be helpful to somebody struggling with a particular section of the book, and can easily diff their changes with this version.
+This can be an extra help, since the official Java version only contains the final snapshot of the source code.
+I've used the Eclipse IDE, so you'll find some Eclipse related files in the repository.
+
+List of bugs/inconsistencies in the book
+========================================
+
+Throughout the process of implementing the project following the book, I came across some bugs/inconsistencies. They are listed here:
+
+
+page 134: public void sniperWinning() is introduced, but until then there is no reference at all.
+
+page 135: on method processMessage(), there is a missing "else" in:  if () {} "else" if {}.
+
+page 141: AuctionEventListener extends from EventListener -> until this point, only SniperListener extends from EventListener.
+
+page 142: on method isFrom, FromSniper and FromOtherBidder are not directly available, it is needed to describe them as PriceSource.FromSniper and PriceSource.FromOtherBidder. It is incoherent the way it is used throughout the book.
+
+page 142: there is a fragment of code with EVENT_TYPE_PRICE, which was never introduced beforehand. On the final code of GOOS in github, it is also not given there.
+
+page 143: besides doing the changes on class AuctionSniper (switch statement), it is also necessary to change the method bidsHigherAndReportsBiddingWhenNewPriceArrives on the AuctionSniperTest class, saying that the current price comes from another bidder: sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);.
+
+page 145: it is assumed that a test reportsLostIfAuctionCloses is already present. It was actually named reportsLostWhenAuctionCloses on page 124.
+
+page 147: the test contains: "sniper.currentPrice(123, 45, true);"  while it should be "sniper.currentPrice(123, 45, PriceSource.FromSniper);"
+
+page 155: the test only passes if the bolded text provided: "new SniperState(itemId, price, bid)", is replaced with the indication given next for another test: "with(any(SniperState.class))".
+
+page 156: the sniperBidding method on class SniperStateDisplayer is not up to date with changes done previously. It should be: 
+
+               showStatus(MainWindow.STATUS_BIDDING);
+
+          with showStatus being:
+
+                private void showStatus(final String status) {
+                  SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                      ui.showStatus(status);
+                    }
+                  });
+                }
+
+page 15x: ApplicationRunner startBiddingIn() -> contains itemId being referenced before it is assigned (itemId = auction.itemId())
+
+page 159: an image is shown with column A being item-54321. There is no production code that supports such a change from "" to "item-54321". On the previous page (page 158), the STARTING_UP state is set to SniperState("", 0, 0), and after that there is no change on the item id, which makes the end2end test fail with
+
+java.lang.AssertionError: 
+Tried to look for...
+    exactly 1 JTable ()
+    in exactly 1 JFrame (with name "Auction Sniper Main" and showing on screen)
+        in all top level windows
+        and check that it is table with row with cells <label with text "item-54321">, <label with text "0">, <label with text "0">, <label with text "Joining">
+        but...
+            all top level windows
+                contained 1 JFrame (with name "Auction Sniper Main" and showing on screen)
+                    contained 1 JTable ()
+   it is not table with row with cells <label with text "item-54321">, <label with text "0">, <label with text "0">, <label with text "Joining">
+       because 
+             in row 0: component 0 text was ""
+              at com.objogate.wl.PollingProber.check(PollingProber.java:38)
+        [...]
+
+
+
+page 182: the private method rowMatching is making use of a variable named newSnapshot -> it should be called snapshot.
+
+page 184: startSniper() should have a parameter: auctions. Check with last changes made in page 177, where the arguments() method requires the 'auctions' parameter.
+
+page 195: where does auctionServer comes from? It is not visibly created or initialized. Sometimes, it is referred to auctionServer, sometimes to server.
+
+page 198: a new AuctionSniper object is created, however, no such constructor is already available. At the time, it is required to pass on a SniperListener. 
+
+page 218: on the test example given (notifiesAuctionFailedWhenEventTypeMissing), the test does not fails, because the previous added try/catch block catches this Exception. In fact, as it is given Exception, it will catch all types of exceptions without need to define new types of exceptions.
+
+page 220: XMPPAuction constructor has a parameter auctionJID. This parameter magically appears at this point. 
+
+page 220: there is a lost "z" in between the methods translatorFor() and chatDisconnectFor().
